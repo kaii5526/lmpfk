@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Are You Happy Today?</title>
+
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    color: white;
+    background: linear-gradient(to bottom, #4facfe, #00c6ff);
+    overflow: hidden;
+  }
+
+  h1 {
+    margin-top: 80px;
+    font-size: 40px;
+  }
+
+  .buttons {
+    margin-top: 40px;
+    position: relative;
+  }
+
+  button {
+    padding: 15px 25px;
+    font-size: 16px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    margin: 10px;
+    transition: 0.3s;
+    position: relative;
+  }
+
+  .yes {
+    background-color: #FFD700;
+    color: black;
+  }
+
+  .yes:hover {
+    transform: scale(1.1);
+  }
+
+  .no {
+    background-color: #1E90FF;
+    color: white;
+    position: absolute;
+  }
+
+  .message {
+    margin-top: 30px;
+    font-size: 20px;
+  }
+
+  /* WAVES */
+  .wave {
+    position: absolute;
+    bottom: 0;
+    width: 200%;
+    height: 200px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 100%;
+    animation: wave 6s infinite linear;
+  }
+
+  .wave:nth-child(2) {
+    bottom: 10px;
+    animation: wave 10s infinite linear;
+    opacity: 0.5;
+  }
+
+  @keyframes wave {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* FISH */
+  .fish {
+    position: absolute;
+    width: 60px;
+    animation: swim 12s linear infinite;
+  }
+
+  @keyframes swim {
+    0% { left: -100px; top: 60%; }
+    100% { left: 110%; top: 50%; }
+  }
+
+  /* BUBBLES */
+  .bubble {
+    position: absolute;
+    bottom: -50px;
+    width: 10px;
+    height: 10px;
+    background: white;
+    border-radius: 50%;
+    opacity: 0.6;
+    animation: rise 6s infinite;
+  }
+
+  @keyframes rise {
+    from {
+      transform: translateY(0);
+      opacity: 0.6;
+    }
+    to {
+      transform: translateY(-600px);
+      opacity: 0;
+    }
+  }
+</style>
+</head>
+
+<body>
+
+<h1>are you happy today?</h1>
+
+<div class="buttons" id="buttons">
+  <button class="yes" onclick="showMessage('happy')">
+    yes, i'm very happy!!
+  </button>
+
+  <button class="no" id="noBtn" onmouseover="moveButton()">
+    no, i feel sad today :(
+  </button>
+</div>
+
+<div class="message" id="message"></div>
+
+<!-- Waves -->
+<div class="wave"></div>
+<div class="wave"></div>
+
+<!-- Fish -->
+<img src="https://cdn-icons-png.flaticon.com/512/616/616408.png" class="fish">
+
+<!-- Ocean sound -->
+<audio id="oceanSound" loop>
+  <source src="https://www.soundjay.com/nature/ocean-wave-1.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+  const noBtn = document.getElementById("noBtn");
+
+  // posisi awal tombol "no"
+  noBtn.style.top = "0px";
+  noBtn.style.left = "120px";
+
+  function showMessage(mood) {
+    const msg = document.getElementById("message");
+    const sound = document.getElementById("oceanSound");
+
+    sound.play();
+
+    if (mood === "happy") {
+      msg.innerHTML = "That's amazing! Keep shining like the sun over the sea!";
+    } else {
+      msg.innerHTML = "It's okay to feel sad. The ocean is here to calm you.";
+    }
+  }
+
+  // tombol "no" kabur
+  function moveButton() {
+    const x = Math.random() * 200 - 100;
+    const y = Math.random() * 100;
+
+    noBtn.style.transform = `translate(${x}px, ${y}px)`;
+  }
+
+  // generate bubbles
+  function createBubble() {
+    const bubble = document.createElement("div");
+    bubble.classList.add("bubble");
+
+    bubble.style.left = Math.random() * window.innerWidth + "px";
+    bubble.style.animationDuration = (3 + Math.random() * 3) + "s";
+
+    document.body.appendChild(bubble);
+
+    setTimeout(() => {
+      bubble.remove();
+    }, 6000);
+  }
+
+  setInterval(createBubble, 300);
+</script>
+
+</body>
+</html>
